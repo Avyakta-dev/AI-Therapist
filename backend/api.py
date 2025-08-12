@@ -34,3 +34,8 @@ async def chat(req: ChatRequest):
 @app.get("/health")
 async def health():
     return {"status": "ok"}
+
+@app.get("/keepalive")
+async def keepalive():
+    # ultra-light endpoint for external cron/UptimeRobot pings
+    return {"ok": True}
