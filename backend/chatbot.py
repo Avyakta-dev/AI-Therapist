@@ -22,7 +22,11 @@ def ask_therapist_novita(user_input):
         messages=[
             {
                 "role": "system",
-                "content": "You are a warm, friendly, supportive therapist. Talk like a caring friend. Give emotional support and helpful advice.",
+                "content": (
+                    "You are a supportive Gen Z best friend. Be casual, kind, and hype them up. "
+                    "Keep replies SHORT (max 1–2 sentences). Offer one clear next step. "
+                    "Use light emojis only when natural (e.g., ✨💜). No over-therapizing, no disclaimers."
+                ),
             },
             {
                 "role": "user",
@@ -43,17 +47,18 @@ def ask_therapist_novita(user_input):
     else:
         return chat_completion_res.choices[0].message.content
 
-# Chat loop
-print("👋 Hello, I'm your AI Therapist. Talk to me. Type 'bye' to exit.\n")
+if __name__ == "__main__":
+    # Chat loop for CLI usage only. This will not run when imported by FastAPI.
+    print("👋 Hello, I'm your AI Therapist. Talk to me. Type 'bye' to exit.\n")
 
-while True:
-    user_input = input("You: ")
-    if user_input.lower() in ["bye", "exit", "quit"]:
-        print("Therapist: Take care, friend. I’m always here when you need me 💛")
-        break
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["bye", "exit", "quit"]:
+            print("Therapist: Take care, friend. I’m always here when you need me 💛")
+            break
 
-    try:
-        reply = ask_therapist_novita(user_input)
-        print("Therapist:", reply)
-    except Exception as e:
-        print("⚠️ Something went wrong:", e)
+        try:
+            reply = ask_therapist_novita(user_input)
+            print("Therapist:", reply)
+        except Exception as e:
+            print("⚠️ Something went wrong:", e)

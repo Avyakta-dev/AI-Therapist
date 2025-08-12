@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from chatbot import ask_therapist_novita  # Your function
+from chatbot import ask_therapist_novita
+import os
 
 app = FastAPI()
 
@@ -14,10 +15,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class UserMessage(BaseModel):
-    message: str
+class ChatRequest(BaseModel):
+    user_input: str
 
 @app.post("/chat")
-async def chat(user_message: UserMessage):
-    reply = ask_therapist_novita(user_message.message)
+async def chat(req: ChatRequest):
+    # Fallback to a friendly mock when NOVITA_API_KEY is not set so the app works out of the box
+    if not os.getenv("NOVITA_API_KEY"):
+        return {
+            "reply": (
+                "low-key hear you. that’s a lot — try one tiny thing rn that helps (water, 5 deep breaths, or a 5‑min walk). you got this ✨"
+            )
+        }
+
+    reply = ask_therapist_novita(req.user_input)
     return {"reply": reply}
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}

@@ -41,7 +41,8 @@ const ChatInterface = () => {
     setIsTyping(true);
   
     // 🔗 Make real API call to your FastAPI backend
-    fetch("http://127.0.0.1:8000/chat", {
+    const apiBase = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+    fetch(`${apiBase}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
