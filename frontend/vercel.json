@@ -4,10 +4,11 @@
     { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "dist" } }
   ],
   "env": {
-    "VITE_API_BASE_URL": "https://YOUR-RENDER-SERVICE.onrender.com"
+    "VITE_API_BASE_URL": "https://ai-therapist-r6jd.onrender.com/"
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
 
